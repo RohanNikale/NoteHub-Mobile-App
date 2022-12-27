@@ -39,7 +39,7 @@ const Home = ({ navigation }) => {
 
     const deletenote=async(id)=>{
         const token = await AsyncStorage.getItem('authToken')
-
+        setLoading(true)
         await fetch('https://note-hub-backend.vercel.app/deletenote', {
             method: 'DELETE',
             headers: {
@@ -52,8 +52,12 @@ const Home = ({ navigation }) => {
             })
         })
         .then((res)=>{
+            setLoading(false)
             navigation.replace('Home')
-            res.json})
+            res.json}).catch(()=>{
+                setLoading(false)
+                Alert.alert('please check your internet connection')
+            })
 
     }
 
